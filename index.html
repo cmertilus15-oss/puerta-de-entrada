@@ -1,498 +1,517 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal | Ecos de Papel</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ecos de Papel — Exhibición Interactiva de Fábulas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&family=Lora:ital,wght@0,400;0,500;1,400&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <style>
+    /* === VARIABLES CSS === */
+    :root {
+      --color-bg:        #f0ebe1;
+      --color-card:      #fdfbf7;
+      --color-text:      #2b2721;
+      --color-gold:      #c29b57;
+      --color-olive:     #4a503f;
+      --color-gold-dark: #a07d3a;
+      --color-muted:     #7a6f62;
+      --color-border:    #ddd5c4;
+      --font-title: 'Playfair Display', Georgia, serif;
+      --font-body:  'Lora', Georgia, serif;
+      --shadow-sm: 0 2px 8px rgba(43,39,33,.08);
+      --shadow-md: 0 6px 24px rgba(43,39,33,.13);
+      --shadow-lg: 0 16px 48px rgba(43,39,33,.18);
+      --radius-md: 12px;
+      --radius-lg: 20px;
+    }
 
-    <!-- Fuentes Tipográficas -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    /* === RESET + BASE === */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: var(--font-body);
+      font-size: 1rem;
+      line-height: 1.75;
+      color: var(--color-text);
+      background-color: var(--color-bg);
+      background-image:
+        radial-gradient(circle, rgba(194,155,87,.18) 1px, transparent 1px),
+        radial-gradient(circle, rgba(74,80,63,.07)   1px, transparent 1px);
+      background-size: 28px 28px, 14px 14px;
+      background-position: 0 0, 7px 7px;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
 
-    <style>
-        /* ==========================================
-           VARIABLES DE DISEÑO VINTAGE PREMIUM
-           ========================================== */
-        :root {
-            --bg-paper: #f0ebe1;
-            --bg-card: #fdfbf7;
-            --text-dark: #2b2721;
-            --text-muted: #6e6459;
-            --accent-gold: #c29b57;
-            --accent-gold-hover: #a88548;
-            --accent-green: #4a503f;
-            --border-color: #d4c8b8;
-            
-            --font-title: 'Playfair Display', serif;
-            --font-body: 'Lora', serif;
-            
-            --shadow-soft: 0 10px 30px rgba(43, 39, 33, 0.08);
-            --shadow-glow: 0 0 20px rgba(194, 155, 87, 0.15);
-            --transition-smooth: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-        }
+    /* === LÍNEA SUPERIOR === */
+    .top-rule {
+      width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--color-olive) 0%, var(--color-gold) 50%, var(--color-olive) 100%);
+    }
 
-        /* ==========================================
-           RESET Y BASE
-           ========================================== */
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* === NAVEGACIÓN === */
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1.2rem 5vw;
+      border-bottom: 1px solid var(--color-border);
+      background: rgba(253,251,247,.85);
+      backdrop-filter: blur(6px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .nav-logo {
+      font-family: var(--font-title);
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: var(--color-text);
+      display: flex;
+      align-items: center;
+      gap: .5rem;
+      text-decoration: none;
+    }
+    .nav-logo i { color: var(--color-gold); font-size: 1rem; }
+    .nav-badge {
+      font-family: var(--font-body);
+      font-size: .72rem;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      border: 1px solid var(--color-border);
+      padding: .25rem .75rem;
+      border-radius: 50px;
+    }
 
-        body {
-            font-family: var(--font-body);
-            background-color: var(--bg-paper);
-            color: var(--text-dark);
-            line-height: 1.6;
-            overflow-x: hidden;
-            /* Textura sutil */
-            background-image: radial-gradient(var(--border-color) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
+    /* === HERO === */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+      padding: 6rem 8vw 7rem;
+      max-width: 1280px;
+      margin: 0 auto;
+    }
+    .hero-text { animation: fadeUp .9s ease both; }
+    .hero-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: .5rem;
+      font-size: .75rem;
+      letter-spacing: .18em;
+      text-transform: uppercase;
+      color: var(--color-gold-dark);
+      margin-bottom: 1.25rem;
+      padding: .3rem .9rem;
+      border: 1px solid var(--color-gold);
+      border-radius: 50px;
+      background: rgba(194,155,87,.08);
+    }
+    .hero-kicker::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--color-gold);
+    }
+    .hero-title {
+      font-family: var(--font-title);
+      font-size: clamp(3rem, 7vw, 5.5rem);
+      font-weight: 700;
+      line-height: 1.06;
+      letter-spacing: -.02em;
+      margin-bottom: 1.5rem;
+    }
+    .hero-title em { font-style: italic; color: var(--color-olive); }
+    .hero-tagline {
+      font-family: var(--font-title);
+      font-size: clamp(.95rem, 1.8vw, 1.2rem);
+      font-style: italic;
+      color: var(--color-muted);
+      margin-bottom: 1.25rem;
+      padding-left: 1rem;
+      border-left: 3px solid var(--color-gold);
+      line-height: 1.55;
+    }
+    .hero-desc { font-size: 1rem; color: var(--color-muted); max-width: 48ch; line-height: 1.8; }
 
-        h1, h2, h3 { font-family: var(--font-title); font-weight: 600; }
+    /* === ESCENA VISUAL === */
+    .hero-visual {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 2.5rem;
+      animation: fadeUp .9s .25s ease both;
+    }
+    .book-scene { position: relative; width: 260px; height: 260px; }
+    .book-center {
+      position: absolute;
+      inset: 50%; transform: translate(-50%,-50%);
+      width: 130px; height: 130px;
+      background: var(--color-card);
+      border: 2px solid var(--color-gold);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-lg), inset 0 0 30px rgba(194,155,87,.1);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 2;
+    }
+    .book-center i { font-size: 3.5rem; color: var(--color-gold); filter: drop-shadow(0 2px 6px rgba(194,155,87,.4)); }
+    .orb {
+      position: absolute;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 50%;
+      background: var(--color-card);
+      border: 1.5px solid var(--color-border);
+      box-shadow: var(--shadow-sm);
+      color: var(--color-olive);
+      font-size: 1.1rem;
+    }
+    .orb-star1   { width:44px;height:44px; top:10px;   left:10px;   animation: float1 4s   ease-in-out infinite; }
+    .orb-star2   { width:36px;height:36px; top:14px;   right:20px;  animation: float2 5s 1s ease-in-out infinite; color: var(--color-gold); }
+    .orb-feather { width:48px;height:48px; bottom:16px;left:0;      animation: float3 4.5s .5s ease-in-out infinite; }
+    .orb-leaf    { width:40px;height:40px; bottom:10px;right:14px;  animation: float1 3.8s .8s ease-in-out infinite; }
+    .orb-moon    { width:36px;height:36px; top:50%;    right:0;     transform:translateY(-50%); animation: float2 5.5s 1.5s ease-in-out infinite; color: var(--color-gold-dark); }
+    .orb-scroll  { width:40px;height:40px; top:50%;    left:0;      transform:translateY(-50%); animation: float3 4.2s .3s ease-in-out infinite; }
+    .ring {
+      position: absolute; inset: 50%;
+      border-radius: 50%; border: 1px dashed;
+      pointer-events: none;
+      transform: translate(-50%,-50%);
+      animation: spin 30s linear infinite;
+    }
+    .ring-outer { width:240px;height:240px; border-color: rgba(194,155,87,.25); }
+    .ring-inner { width:170px;height:170px; border-color: rgba(74,80,63,.2); animation-direction:reverse; animation-duration:20s; }
 
-        /* ==========================================
-           CONTENEDOR PRINCIPAL
-           ========================================== */
-        .portal-wrapper {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 3rem 2rem;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+    /* === BOTÓN CTA === */
+    .btn-enter {
+      display: inline-flex;
+      align-items: center;
+      gap: .75rem;
+      font-family: var(--font-title);
+      font-size: 1.05rem;
+      font-weight: 700;
+      letter-spacing: .04em;
+      color: var(--color-card);
+      background: linear-gradient(135deg, var(--color-olive) 0%, #2f3428 100%);
+      border: none;
+      padding: 1rem 2.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 4px 20px rgba(74,80,63,.35), inset 0 1px 0 rgba(255,255,255,.12);
+      transition: transform .2s, box-shadow .2s;
+      text-decoration: none;
+    }
+    .btn-enter::before {
+      content: '';
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--color-gold) 0%, var(--color-gold-dark) 100%);
+      opacity: 0;
+      transition: opacity .3s;
+    }
+    .btn-enter span, .btn-enter i { position: relative; z-index: 1; }
+    .btn-enter i { font-size: .9rem; transition: transform .3s; }
+    .btn-enter:hover { transform: translateY(-3px); box-shadow: 0 8px 32px rgba(74,80,63,.45); }
+    .btn-enter:hover::before { opacity: 1; }
+    .btn-enter:hover i { transform: translateX(4px); }
+    .btn-enter:active { transform: translateY(-1px); }
 
-        /* ==========================================
-           SECCIÓN HÉROE (ARRIBA)
-           ========================================== */
-        .hero-section {
-            display: grid;
-            grid-template-columns: 1.2fr 0.8fr;
-            gap: 4rem;
-            align-items: center;
-            margin-bottom: 5rem;
-        }
+    /* === DIVISOR ORNAMENTAL === */
+    .divider {
+      display: flex; align-items: center; gap: 1rem;
+      padding: 0 8vw; max-width: 1280px; margin: 0 auto 4rem;
+    }
+    .divider-line { flex: 1; height: 1px; background: linear-gradient(90deg, transparent, var(--color-border), transparent); }
+    .divider-icon { color: var(--color-gold); font-size: .9rem; opacity: .7; }
 
-        /* Textos Izquierda */
-        .hero-text-content {
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards 0.2s;
-        }
+    /* === SECCIÓN FEATURES === */
+    .features { padding: 2rem 8vw 8rem; max-width: 1280px; margin: 0 auto; }
+    .features-header { text-align: center; margin-bottom: 4rem; }
+    .features-label { font-size: .7rem; letter-spacing: .2em; text-transform: uppercase; color: var(--color-gold-dark); margin-bottom: .75rem; }
+    .features-title { font-family: var(--font-title); font-size: clamp(1.8rem, 4vw, 3rem); font-weight: 700; line-height: 1.2; }
+    .features-title em { font-style: italic; color: var(--color-olive); }
+    .features-subtitle { margin-top: .75rem; color: var(--color-muted); font-size: .95rem; max-width: 50ch; margin-left: auto; margin-right: auto; }
 
-        .kicker {
-            font-size: 0.9rem;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            color: var(--accent-gold);
-            margin-bottom: 1rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .kicker::before {
-            content: "";
-            width: 40px;
-            height: 1px;
-            background-color: var(--accent-gold);
-        }
+    /* === TARJETAS === */
+    .cards-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+    .card {
+      background: var(--color-card);
+      border: 1.5px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      padding: 2.5rem 2rem 2rem;
+      position: relative;
+      overflow: hidden;
+      box-shadow: var(--shadow-sm);
+      transition: transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s, border-color .35s;
+      opacity: 0;
+      transform: translateY(40px);
+    }
+    .card.visible { animation: cardReveal .65s ease both; }
+    .card:nth-child(1).visible { animation-delay: 0s; }
+    .card:nth-child(2).visible { animation-delay: .15s; }
+    .card:nth-child(3).visible { animation-delay: .3s; }
+    .card::before {
+      content: ''; position: absolute; top: 0; right: 0;
+      width: 80px; height: 80px;
+      background: radial-gradient(circle at top right, rgba(194,155,87,.12), transparent 70%);
+    }
+    .card:hover { transform: translateY(-8px); box-shadow: var(--shadow-lg); border-color: var(--color-gold); }
+    .card-icon-wrap {
+      width: 64px; height: 64px;
+      border-radius: var(--radius-md);
+      background: linear-gradient(135deg, rgba(74,80,63,.1) 0%, rgba(194,155,87,.12) 100%);
+      border: 1.5px solid rgba(194,155,87,.3);
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 1.5rem;
+      transition: background .3s, transform .3s;
+    }
+    .card:hover .card-icon-wrap { background: linear-gradient(135deg, rgba(74,80,63,.18) 0%, rgba(194,155,87,.2) 100%); transform: scale(1.05) rotate(-3deg); }
+    .card-icon-wrap i { font-size: 1.8rem; color: var(--color-gold-dark); }
+    .card-number {
+      position: absolute; top: 1.25rem; right: 1.5rem;
+      font-family: var(--font-title); font-size: 3.5rem; font-weight: 700;
+      color: rgba(194,155,87,.1); line-height: 1; user-select: none;
+    }
+    .card-title { font-family: var(--font-title); font-size: 1.25rem; font-weight: 700; margin-bottom: .6rem; }
+    .card-desc { font-size: .9rem; color: var(--color-muted); line-height: 1.7; }
+    .card-link {
+      display: inline-flex; align-items: center; gap: .4rem;
+      margin-top: 1.25rem; font-size: .8rem; letter-spacing: .08em;
+      text-transform: uppercase; color: var(--color-gold-dark);
+      font-weight: 500; text-decoration: none;
+      transition: gap .25s, color .25s;
+    }
+    .card-link i { font-size: .75rem; transition: transform .25s; }
+    .card:hover .card-link { color: var(--color-olive); }
+    .card:hover .card-link i { transform: translateX(4px); }
 
-        .main-title {
-            font-size: 4.5rem;
-            line-height: 1.1;
-            margin-bottom: 1rem;
-            color: var(--text-dark);
-        }
-        .main-title span { font-style: italic; color: var(--accent-green); }
+    /* === FOOTER === */
+    footer {
+      background: var(--color-text);
+      color: rgba(240,235,225,.6);
+      text-align: center;
+      padding: 2.5rem 5vw;
+      font-size: .82rem;
+      letter-spacing: .04em;
+    }
+    footer strong { color: var(--color-gold); }
+    .footer-rule { width: 40px; height: 1px; background: var(--color-gold); margin: .75rem auto .5rem; opacity: .5; }
 
-        .impact-phrase {
-            font-size: 1.5rem;
-            font-style: italic;
-            color: var(--accent-gold);
-            margin-bottom: 1.5rem;
-            border-left: 3px solid var(--accent-gold);
-            padding-left: 1.5rem;
-        }
+    /* === KEYFRAMES === */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(32px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes float1 {
+      0%,100% { transform: translateY(0)    rotate(0deg); }
+      50%     { transform: translateY(-12px) rotate(8deg); }
+    }
+    @keyframes float2 {
+      0%,100% { transform: translateY(0)    rotate(0deg); }
+      50%     { transform: translateY(-16px) rotate(-6deg); }
+    }
+    @keyframes float3 {
+      0%,100% { transform: translateY(0)    rotate(0deg); }
+      50%     { transform: translateY(-10px) rotate(12deg); }
+    }
+    @keyframes spin {
+      from { transform: translate(-50%,-50%) rotate(0deg); }
+      to   { transform: translate(-50%,-50%) rotate(360deg); }
+    }
 
-        .description {
-            font-size: 1.15rem;
-            color: var(--text-muted);
-            margin-bottom: 2.5rem;
-            max-width: 550px;
-        }
+    /* === RESPONSIVE TABLET === */
+    @media (max-width: 960px) {
+      .hero { grid-template-columns: 1fr; padding: 4rem 6vw 5rem; gap: 3rem; text-align: center; }
+      .hero-tagline { border-left: none; border-top: 3px solid var(--color-gold); padding-left: 0; padding-top: .75rem; }
+      .hero-desc { margin: 0 auto; }
+      .cards-grid { grid-template-columns: repeat(2, 1fr); }
+    }
 
-        /* ==========================================
-           ÁREA INTERACTIVA (ILUSTRACIÓN + BOTÓN)
-           ========================================== */
-        .hero-interactive {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transform: translateY(30px);
-            animation: fadeUp 1s ease forwards 0.5s;
-            position: relative;
-        }
-
-        /* Composición del Libro Mágico */
-        .magic-composition {
-            position: relative;
-            width: 280px;
-            height: 280px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 3rem;
-            border-radius: 50%;
-            background: radial-gradient(circle, rgba(194, 155, 87, 0.1) 0%, transparent 70%);
-            animation: floatSlow 6s ease-in-out infinite;
-        }
-
-        .book-icon-main {
-            font-size: 8rem;
-            color: var(--accent-green);
-            text-shadow: 0 10px 20px rgba(74, 80, 63, 0.2);
-            position: relative;
-            z-index: 2;
-        }
-
-        .floating-element {
-            position: absolute;
-            color: var(--accent-gold);
-            opacity: 0;
-            z-index: 3;
-        }
-
-        .fe-1 { top: 20%; left: 15%; font-size: 2rem; animation: floatUp 3s ease-in-out infinite 0.2s; }
-        .fe-2 { top: 10%; right: 25%; font-size: 1.5rem; animation: floatUp 4s ease-in-out infinite 1s; }
-        .fe-3 { bottom: 25%; left: 5%; font-size: 1.2rem; animation: floatUp 3.5s ease-in-out infinite 0.5s; }
-        .fe-4 { bottom: 15%; right: 10%; font-size: 3rem; animation: floatUp 4.5s ease-in-out infinite 1.5s; }
-
-        .btn-access {
-            background: linear-gradient(135deg, var(--accent-green) 0%, #2f3427 100%);
-            color: #fff;
-            border: 2px solid #2f3427;
-            padding: 1.2rem 3.5rem;
-            font-family: var(--font-title);
-            font-size: 1.4rem;
-            border-radius: 50px;
-            cursor: pointer;
-            transition: var(--transition-smooth);
-            display: inline-flex;
-            align-items: center;
-            gap: 15px;
-            letter-spacing: 2px;
-            box-shadow: 0 5px 20px rgba(74, 80, 63, 0.4), inset 0 0 0 1px rgba(255,255,255,0.1);
-            text-decoration: none;
-            position: relative;
-            overflow: hidden;
-            animation: pulseSoft 2s infinite;
-        }
-
-        .btn-access::before {
-            content: '';
-            position: absolute;
-            top: 0; left: -100%;
-            width: 50%; height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255,255,255,0.3), transparent);
-            transform: skewX(-25deg);
-            transition: 0.5s;
-        }
-
-        .btn-access:hover::before { left: 150%; }
-
-        .btn-access:hover {
-            transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 15px 30px rgba(194, 155, 87, 0.4);
-            color: var(--accent-gold);
-            border-color: var(--accent-gold);
-            animation: none; /* Detener el pulso al hacer hover */
-        }
-
-        /* ==========================================
-           SECCIÓN INFERIOR (VISTA PREVIA / QUÉ ENCONTRARÁS)
-           ========================================== */
-        .preview-section {
-            border-top: 1px dashed var(--accent-gold);
-            padding-top: 4rem;
-        }
-
-        .preview-header {
-            text-align: center;
-            margin-bottom: 3rem;
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .preview-header.visible {
-            animation: fadeUp 0.8s ease forwards;
-        }
-
-        .preview-title {
-            font-size: 2.2rem;
-            color: var(--accent-green);
-            margin-bottom: 0.5rem;
-        }
-
-        .preview-subtitle {
-            color: var(--text-muted);
-            font-style: italic;
-        }
-
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-        }
-
-        .feature-card {
-            background-color: var(--bg-card);
-            padding: 2rem;
-            border-radius: 4px;
-            border: 1px solid var(--border-color);
-            text-align: center;
-            transition: var(--transition-smooth);
-            opacity: 0;
-            transform: translateY(20px);
-        }
-
-        .feature-card.visible { animation: fadeUp 0.8s ease forwards; }
-        .feature-card:nth-child(1).visible { animation-delay: 0.1s; }
-        .feature-card:nth-child(2).visible { animation-delay: 0.3s; }
-        .feature-card:nth-child(3).visible { animation-delay: 0.5s; }
-
-        .feature-card:hover {
-            border-color: var(--accent-gold);
-            transform: translateY(-5px);
-            background-color: #fff;
-        }
-
-        .feature-icon {
-            font-size: 2.5rem;
-            color: var(--accent-gold);
-            margin-bottom: 1.5rem;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 1rem;
-            color: var(--text-dark);
-        }
-
-        .feature-card p {
-            font-size: 1rem;
-            color: var(--text-muted);
-        }
-
-        /* Marco decorativo global */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 15px; bottom: 15px; left: 15px; right: 15px;
-            border: 1px solid var(--accent-gold);
-            border-radius: 10px;
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.3;
-        }
-
-        body::after {
-            content: '';
-            position: fixed;
-            top: 20px; bottom: 20px; left: 20px; right: 20px;
-            border: 1px solid var(--accent-gold);
-            border-radius: 8px;
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.15;
-        }
-
-        /* ==========================================
-           ANIMACIONES Y RESPONSIVE
-           ========================================== */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        @keyframes floatSlow {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-15px); }
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(10px) scale(0.8); opacity: 0; }
-            50% { opacity: 0.8; }
-            100% { transform: translateY(-30px) scale(1.2); opacity: 0; }
-        }
-
-        @keyframes pulseSoft {
-            0% { box-shadow: 0 5px 20px rgba(74, 80, 63, 0.4); }
-            50% { box-shadow: 0 5px 30px rgba(194, 155, 87, 0.6); }
-            100% { box-shadow: 0 5px 20px rgba(74, 80, 63, 0.4); }
-        }
-
-        /* Clase para transición de salida al hacer clic en entrar */
-        .page-fade-out {
-            opacity: 0;
-            transition: opacity 0.5s ease;
-        }
-
-        @media (max-width: 992px) {
-            .hero-section { grid-template-columns: 1fr; text-align: center; gap: 3rem; }
-            .kicker { justify-content: center; }
-            .kicker::before { display: none; }
-            .impact-phrase { border-left: none; border-bottom: 3px solid var(--accent-gold); padding-left: 0; padding-bottom: 1rem; }
-            .description { margin: 0 auto 2rem auto; }
-            .magic-composition { margin: 0 auto 2rem auto; }
-            .features-grid { grid-template-columns: 1fr; }
-        }
-
-        @media (max-width: 600px) {
-            .main-title { font-size: 3rem; }
-            .portal-wrapper { padding: 2rem 1rem; }
-            .qr-frame { padding: 1.5rem; }
-            .qr-placeholder { width: 180px; height: 180px; }
-        }
-    </style>
+    /* === RESPONSIVE MÓVIL === */
+    @media (max-width: 600px) {
+      .nav { padding: 1rem 5vw; }
+      .nav-badge { display: none; }
+      .hero { padding: 3rem 5vw 4rem; gap: 2.5rem; }
+      .book-scene { width: 220px; height: 220px; }
+      .book-center { width: 110px; height: 110px; }
+      .book-center i { font-size: 2.8rem; }
+      .ring-outer { width: 200px; height: 200px; }
+      .ring-inner { width: 145px; height: 145px; }
+      .cards-grid { grid-template-columns: 1fr; }
+      .features { padding: 2rem 5vw 5rem; }
+      .divider { padding: 0 5vw; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="portal-wrapper">
-        
-        <!-- SECCIÓN PRINCIPAL / HÉROE -->
-        <main class="hero-section">
-            
-            <div class="hero-text-content">
-                <div class="kicker">Exhibición Interactiva</div>
-                <h1 class="main-title">Ecos de <span>Papel</span></h1>
-                <p class="impact-phrase">"Donde la sabiduría del pasado se encuentra con la tinta del futuro."</p>
-                <p class="description">
-                    Estás a punto de cruzar el umbral hacia una colección curada de fábulas clásicas. Prepara tus sentidos para una experiencia editorial que redescubre las moralejas que forjaron nuestro mundo, ahora diseñadas para la mirada contemporánea.
-                </p>
-            </div>
+  <div class="top-rule" aria-hidden="true"></div>
 
-            <div class="hero-interactive">
-                
-                <div class="magic-composition">
-                    <i class="fa-solid fa-book-journal-whills book-icon-main"></i>
-                    <i class="fa-solid fa-star floating-element fe-1"></i>
-                    <i class="fa-solid fa-feather floating-element fe-2"></i>
-                    <i class="fa-solid fa-sparkles floating-element fe-3"></i>
-                    <i class="fa-solid fa-leaf floating-element fe-4"></i>
-                </div>
+  <!-- NAVEGACIÓN -->
+  <nav class="nav" role="navigation" aria-label="Navegación principal">
+    <a href="#" class="nav-logo">
+      <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+      Ecos de Papel
+    </a>
+    <span class="nav-badge">Proyecto Escolar · 2025</span>
+  </nav>
 
-                <a href="index.html" class="btn-access" id="btn-enter">
-                    <i class="fa-solid fa-door-open"></i> Entrar a la Galería
-                </a>
+  <main>
+    <!-- HERO SECTION -->
+    <section class="hero" aria-label="Sección principal">
 
-            </div>
+      <!-- Columna izquierda: texto -->
+      <div class="hero-text">
+        <span class="hero-kicker">Exhibición Interactiva</span>
+        <h1 class="hero-title">Ecos de<br><em>Papel</em></h1>
+        <blockquote class="hero-tagline">
+          "Donde la sabiduría del pasado se encuentra<br>con la tinta del futuro."
+        </blockquote>
+        <p class="hero-desc">
+          Un viaje a través de las fábulas que dieron forma a la humanidad.
+          Descubre los relatos inmortales de Esopo, La Fontaine y Samaniego,
+          pon a prueba tu sabiduría y deja tu propia huella en el muro de ecos.
+        </p>
+      </div>
 
-        </main>
+      <!-- Columna derecha: composición + CTA -->
+      <div class="hero-visual">
+        <div class="book-scene" aria-hidden="true">
+          <div class="ring ring-outer"></div>
+          <div class="ring ring-inner"></div>
+          <div class="book-center">
+            <i class="fa-solid fa-book-open"></i>
+          </div>
+          <div class="orb orb-star1">  <i class="fa-solid fa-star"    aria-hidden="true"></i></div>
+          <div class="orb orb-star2">  <i class="fa-solid fa-star"    aria-hidden="true"></i></div>
+          <div class="orb orb-feather"><i class="fa-solid fa-feather" aria-hidden="true"></i></div>
+          <div class="orb orb-leaf">   <i class="fa-solid fa-leaf"    aria-hidden="true"></i></div>
+          <div class="orb orb-moon">   <i class="fa-solid fa-moon"    aria-hidden="true"></i></div>
+          <div class="orb orb-scroll"> <i class="fa-solid fa-scroll"  aria-hidden="true"></i></div>
+        </div>
+        <a href="#galeria" class="btn-enter" role="button">
+          <span>Entrar a la Galería</span>
+          <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+        </a>
+      </div>
+    </section>
 
-        <!-- SECCIÓN INFERIOR / QUÉ ENCONTRARÁS -->
-        <section class="preview-section">
-            
-            <div class="preview-header scroll-reveal">
-                <h2 class="preview-title">¿Qué esconde este pergamino?</h2>
-                <p class="preview-subtitle">Un vistazo al contenido que te aguarda al otro lado.</p>
-            </div>
-
-            <div class="features-grid">
-                
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon"><i class="fa-solid fa-book-open-reader"></i></div>
-                    <h3>Relatos Inmortales</h3>
-                    <p>Redescubre historias de Esopo y La Fontaine presentadas con una maquetación digna de una edición de coleccionista.</p>
-                </div>
-
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon"><i class="fa-solid fa-scale-balanced"></i></div>
-                    <h3>Trivias de Sabiduría</h3>
-                    <p>Pon a prueba tu intelecto y comprensión moral con nuestros retos interactivos diseñados para hacerte pensar.</p>
-                </div>
-
-                <div class="feature-card scroll-reveal">
-                    <div class="feature-icon"><i class="fa-solid fa-feather-pointed"></i></div>
-                    <h3>El Muro de Ecos</h3>
-                    <p>Lee entre líneas y deja tu propia interpretación para que otros viajeros de esta galería puedan leer tu perspectiva.</p>
-                </div>
-
-            </div>
-
-        </section>
-
+    <!-- DIVISOR ORNAMENTAL -->
+    <div class="divider" aria-hidden="true">
+      <div class="divider-line"></div>
+      <i class="fa-solid fa-feather-pointed divider-icon"></i>
+      <i class="fa-solid fa-diamond divider-icon" style="font-size:.5rem"></i>
+      <i class="fa-solid fa-book divider-icon"></i>
+      <i class="fa-solid fa-diamond divider-icon" style="font-size:.5rem"></i>
+      <i class="fa-solid fa-feather-pointed divider-icon" style="transform:scaleX(-1)"></i>
+      <div class="divider-line"></div>
     </div>
 
-    <!-- SCRIPT DE INTERACCIONES -->
-    <script>
-        // 1. Efecto Scroll Reveal (Aparición suave al bajar la página)
-        document.addEventListener('DOMContentLoaded', () => {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15
-            };
+    <!-- SECCIÓN INFERIOR -->
+    <section class="features" id="galeria" aria-label="Contenido de la galería">
+      <header class="features-header">
+        <p class="features-label">Explora el pergamino</p>
+        <h2 class="features-title">¿Qué esconde<br><em>este pergamino?</em></h2>
+        <p class="features-subtitle">Tres puertas aguardan en la penumbra. Cada una guarda un tesoro distinto.</p>
+      </header>
 
-            const observer = new IntersectionObserver((entries, observer) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('visible');
-                        observer.unobserve(entry.target); // Solo animar una vez
-                    }
-                });
-            }, observerOptions);
+      <div class="cards-grid">
 
-            // Seleccionar todos los elementos con la clase scroll-reveal
-            const revealElements = document.querySelectorAll('.scroll-reveal');
-            revealElements.forEach(el => observer.observe(el));
+        <!-- Tarjeta 1 -->
+        <article class="card" aria-label="Relatos Inmortales">
+          <span class="card-number" aria-hidden="true">I</span>
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-book-open" aria-hidden="true"></i>
+          </div>
+          <h3 class="card-title">Relatos Inmortales</h3>
+          <p class="card-desc">
+            Doce fábulas clásicas presentadas con ilustraciones e interpretaciones
+            renovadas. Esopo, La Fontaine y Samaniego en un solo pergamino.
+          </p>
+          <a href="#" class="card-link">
+            Leer fábulas <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </article>
 
-            // 2. Botón de Entrada (Transición suave hacia la otra página)
-        const btnEnter = document.getElementById('btn-enter');
-        if(btnEnter) {
-            btnEnter.addEventListener('click', function(e) {
-                e.preventDefault(); // Prevenir el salto inmediato
-                const targetUrl = this.getAttribute('href');
-                
-                if (!targetUrl || targetUrl.trim() === '') {
-                    console.warn("No hay URL de destino válida.");
-                    return;
-                }
+        <!-- Tarjeta 2 -->
+        <article class="card" aria-label="Trivias de Sabiduría">
+          <span class="card-number" aria-hidden="true">II</span>
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-scale-balanced" aria-hidden="true"></i>
+          </div>
+          <h3 class="card-title">Trivias de Sabiduría</h3>
+          <p class="card-desc">
+            Pon a prueba cuánto sabes sobre las moralejas que guiaron generaciones.
+            Preguntas interactivas con retroalimentación ilustrada.
+          </p>
+          <a href="#" class="card-link">
+            Jugar trivia <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </article>
 
-                // Añadir clase para desvanecer la pantalla completa
-                document.body.classList.add('page-fade-out');
-                
-                // Esperar a que termine la animación (500ms) para ir al index.html
-                setTimeout(() => {
-                    try {
-                        window.location.href = targetUrl;
-                    } catch (error) {
-                        console.warn("La navegación está bloqueada en este entorno de previsualización.");
-                        
-                        // Restaurar la opacidad de la página para que no se quede en blanco
-                        document.body.classList.remove('page-fade-out');
-                        
-                        // Mostrar un mensaje estilizado en pantalla (Alternativa a alert)
-                        const msgBox = document.createElement('div');
-                        msgBox.innerHTML = `Redirigiendo a: <strong>${targetUrl}</strong><br><small>(La navegación real puede estar bloqueada en la vista previa)</small>`;
-                        Object.assign(msgBox.style, {
-                            position: 'fixed', top: '20px', left: '50%', transform: 'translateX(-50%)',
-                            backgroundColor: 'var(--accent-green)', color: '#fff', padding: '15px 25px',
-                            borderRadius: '8px', zIndex: '10000', textAlign: 'center',
-                            boxShadow: '0 10px 25px rgba(0,0,0,0.2)', fontFamily: 'var(--font-body)'
-                        });
-                        
-                        document.body.appendChild(msgBox);
-                        setTimeout(() => msgBox.remove(), 4000);
-                    }
-                }, 500);
-            });
-        }
-    });
+        <!-- Tarjeta 3 -->
+        <article class="card" aria-label="El Muro de Ecos">
+          <span class="card-number" aria-hidden="true">III</span>
+          <div class="card-icon-wrap">
+            <i class="fa-solid fa-feather" aria-hidden="true"></i>
+          </div>
+          <h3 class="card-title">El Muro de Ecos</h3>
+          <p class="card-desc">
+            Deja plasmada tu propia moraleja. Un espacio colaborativo donde cada
+            visitante escribe su reflexión y se convierte en coautor del proyecto.
+          </p>
+          <a href="#" class="card-link">
+            Dejar eco <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+          </a>
+        </article>
 
-    </script>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>Elaborado con dedicación por el equipo de <strong>Ecos de Papel</strong></p>
+    <div class="footer-rule" aria-hidden="true"></div>
+    <p>Proyecto Escolar · Literatura Universal · 2025</p>
+  </footer>
+
+  <!-- JAVASCRIPT — Scroll Reveal con IntersectionObserver -->
+  <script>
+    /*
+     * Scroll Reveal
+     * Observa cada .card y añade .visible cuando entra al viewport,
+     * disparando la animación @keyframes cardReveal definida en CSS.
+     * Se deja de observar la tarjeta una vez animada (optimización).
+     */
+    (function () {
+      const cards = document.querySelectorAll('.card');
+
+      const observer = new IntersectionObserver(function (entries, obs) {
+        entries.forEach(function (entry) {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, {
+        threshold: 0.15,
+        rootMargin: '0px 0px -40px 0px'
+      });
+
+      cards.forEach(function (card) { observer.observe(card); });
+    })();
+  </script>
+
 </body>
 </html>
